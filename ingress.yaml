@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: libreddit
+  labels:
+    app: libreddit
+spec:
+  tls:
+  - hosts:
+      - r.domain.com
+    secretName: domain-tls
+  rules:
+  - host: r.domain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: libreddit
+            port:
+              number: 80
+

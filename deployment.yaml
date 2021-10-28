@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: libreddit
+  labels:
+    app: libreddit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: libreddit
+  template:
+    metadata:
+      labels:
+        app: libreddit
+    spec:
+      containers:
+        - name: libreddit
+          image: spikecodes/libreddit:latest
+          ports:
+            - containerPort: 8080
+        - name: nginx
+          image: nginx:stable-alpine
+          volumeMounts:
+            - mountPath: /etc/nginx
+              name: libreddit-nginx-conf
+      volumes:
+        - name: libreddit-nginx-conf
+          configMap:
+            defaultMode: 444
+            name: libreddit-nginx-conf
+
